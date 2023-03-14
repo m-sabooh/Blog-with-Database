@@ -57,6 +57,8 @@ app.post("/compose", function(req, res){
 
 });
 
+
+
 app.get("/posts/:postId", function(req, res){
   const requestedPostId = req.params.postId;
   Post.findOne({_id: requestedPostId}).then(post => {
@@ -78,7 +80,14 @@ app.get("/posts/:postId", function(req, res){
 
 });
 
+app.post("/delete", (req, res) => {
+  const postId = req.body.deletePost;
+  Post.findByIdAndRemove(postId).then(() => {
+    res.redirect("/");
+  }).catch(err => console.log(err));
+})
+
 const port = process.env.PORT || 3000;
 app.listen(port, function() {
-  console.log("Server started on port " + port);
+  console.log("Server started on port 3000");
 });
